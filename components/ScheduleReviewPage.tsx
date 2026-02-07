@@ -70,11 +70,11 @@ export default function ScheduleReviewPage() {
 
   useEffect(() => {
     if (step === 2 && duration) {
-      handleNext()
+      setStep(prev => Math.min(prev + 1, 5))
     }
     if (step === 3 && meetingFormat) {
       if (meetingFormat === 'inPerson' || (meetingFormat === 'virtual' && virtualPlatform)) {
-        handleNext()
+        setStep(prev => Math.min(prev + 1, 5))
       }
     }
   }, [duration, meetingFormat, virtualPlatform, step])
@@ -91,8 +91,8 @@ export default function ScheduleReviewPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-800 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md sm:max-w-lg bg-white bg-opacity-10 backdrop-blur-lg text-white">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-800 flex items-center justify-center px-3 py-4 sm:p-4 overflow-x-hidden">
+      <Card className="w-full max-w-[calc(100vw-1.5rem)] sm:max-w-lg bg-white bg-opacity-10 backdrop-blur-lg text-white">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">Schedule Your Detailed Review</CardTitle>
         </CardHeader>
@@ -107,12 +107,12 @@ export default function ScheduleReviewPage() {
                 transition={{ duration: 0.3 }}
               >
                 <h3 className="text-xl font-semibold mb-4">Select a Date and Time</h3>
-                <div className="mb-4">
+                <div className="mb-4 overflow-x-auto">
                   <Calendar
                     mode="single"
                     selected={selectedDate}
                     onSelect={setSelectedDate}
-                    className="rounded-md border"
+                    className="rounded-md border mx-auto"
                   />
                 </div>
                 {selectedDate && (
@@ -201,12 +201,12 @@ export default function ScheduleReviewPage() {
               >
                 <h3 className="text-xl font-semibold mb-4">Select Your Priorities</h3>
                 <p className="mb-2 text-sm text-white">Choose all that apply:</p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 sm:gap-3">
                   {priorities.map((priority) => (
                     <Badge
                       key={priority.id}
                       variant={selectedPriorities.includes(priority.id) ? 'default' : 'outline'}
-                      className="cursor-pointer"
+                      className="cursor-pointer py-2 px-3 text-sm sm:text-base select-none"
                       onClick={() => handlePriorityToggle(priority.id)}
                     >
                       {priority.label}
@@ -245,10 +245,13 @@ export default function ScheduleReviewPage() {
                 className="text-center"
               >
                 <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-semibold mb-4">Appointment Scheduled!</h3>
-                <p className="mb-4">
-                  Your detailed review has been scheduled for {selectedDate && format(selectedDate, 'MMMM d, yyyy')} at {selectedTimeSlot}.
-                  We've sent a confirmation email to {email} with all the details.
+                <h3 className="text-xl sm:text-2xl font-semibold mb-4 text-white">Appointment Scheduled!</h3>
+                <p className="mb-4 text-sm sm:text-base text-white text-opacity-90">
+                  Your detailed review has been scheduled for{' '}
+                  <span className="font-semibold">{selectedDate && format(selectedDate, 'MMMM d, yyyy')}</span> at{' '}
+                  <span className="font-semibold">{selectedTimeSlot}</span>.
+                  We&apos;ve sent a confirmation email to{' '}
+                  <span className="font-semibold">{email}</span> with all the details.
                 </p>
                 <Button onClick={() => router.push('/')} className="mt-4 bg-teal-500 hover:bg-teal-600 text-white">
                   Return to Homepage

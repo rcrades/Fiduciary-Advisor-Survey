@@ -1,3 +1,4 @@
+import React from "react"
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
@@ -5,8 +6,8 @@ import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'SCV Wealth Advisors | Trusted Fiduciary Wealth Management',
+  description: 'SCV Wealth Advisors is a fiduciary wealth management firm with hundreds of years of combined experience and hundreds of millions in AUM. Begin your personalized financial plan today.',
   generator: 'v0.app',
   icons: {
     icon: [

@@ -43,15 +43,16 @@ export default function SurveyPage() {
       }
     },
     onSwipedRight: prevQuestion,
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true
+    trackMouse: true,
+    delta: 30,
+    swipeDuration: 500,
   })
 
   const progress = ((currentQuestion + 1) / questions.length) * 100
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-800 flex items-center justify-center p-4 sm:p-6">
-      <div className="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white bg-opacity-10 backdrop-blur-lg rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-800 flex items-center justify-center px-3 py-4 sm:p-6 overflow-x-hidden">
+      <div className="w-full max-w-[calc(100vw-1.5rem)] sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white bg-opacity-10 backdrop-blur-lg rounded-xl shadow-lg p-3 sm:p-6 md:p-8">
         <AnimatePresence mode="wait">
           {!showResults ? (
             <div {...handlers}>
