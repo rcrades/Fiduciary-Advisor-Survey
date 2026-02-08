@@ -8,8 +8,8 @@ import ProgressBar from './components/ProgressBar'
 import QuestionCard from './components/QuestionCard'
 import ResultsPage from './components/ResultsPage'
 import { questions } from './data/questions'
-import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 
 export default function SurveyPage() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -51,44 +51,61 @@ export default function SurveyPage() {
   const progress = ((currentQuestion + 1) / questions.length) * 100
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-800 flex items-center justify-center px-3 py-4 sm:p-6 overflow-x-hidden">
-      <div className="w-full max-w-[calc(100vw-1.5rem)] sm:max-w-lg md:max-w-xl lg:max-w-2xl bg-white bg-opacity-10 backdrop-blur-lg rounded-xl shadow-lg p-3 sm:p-6 md:p-8">
-        <AnimatePresence mode="wait">
-          {!showResults ? (
-            <div {...handlers}>
-              <ProgressBar progress={progress} />
-              <motion.div
-                key={currentQuestion}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.3 }}
-              >
-                <QuestionCard
-                  question={questions[currentQuestion]}
-                  onAnswer={handleAnswer}
-                  selectedAnswer={answers[currentQuestion]}
-                />
-              </motion.div>
-              <div className="flex justify-start mt-8">
-                <Button
-                  onClick={prevQuestion}
-                  disabled={currentQuestion === 0}
-                  variant="ghost"
-                  className="text-white hover:bg-white hover:bg-opacity-20 py-2 px-4 text-lg"
-                >
-                  <ArrowLeft className="mr-2 h-5 w-5" /> Previous
-                </Button>
-              </div>
+    <div className="min-h-screen bg-background flex flex-col overflow-x-hidden">
+      {/* Header */}
+      <header className="w-full px-4 sm:px-6 py-4 border-b border-border">
+        <div className="max-w-2xl mx-auto flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-serif font-bold text-xs">S</span>
             </div>
-          ) : (
-            <ResultsPage 
-              answers={answers} 
-              onReviewRecommendations={handleReviewRecommendations}
-              showConfetti={true}
-            />
-          )}
-        </AnimatePresence>
+            <span className="font-serif text-base text-foreground">SCV Wealth</span>
+          </Link>
+          <span className="text-xs text-muted-foreground">
+            {currentQuestion + 1} of {questions.length}
+          </span>
+        </div>
+      </header>
+
+      {/* Main content */}
+      <div className="flex-1 flex items-center justify-center px-4 py-6 sm:py-10">
+        <div className="w-full max-w-lg">
+          <AnimatePresence mode="wait">
+            {!showResults ? (
+              <div {...handlers}>
+                <ProgressBar progress={progress} />
+                <motion.div
+                  key={currentQuestion}
+                  initial={{ opacity: 0, x: 40 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -40 }}
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
+                >
+                  <QuestionCard
+                    question={questions[currentQuestion]}
+                    onAnswer={handleAnswer}
+                    selectedAnswer={answers[currentQuestion]}
+                  />
+                </motion.div>
+                {currentQuestion > 0 && (
+                  <button
+                    onClick={prevQuestion}
+                    type="button"
+                    className="mt-6 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <ArrowLeft className="w-4 h-4" /> Previous question
+                  </button>
+                )}
+              </div>
+            ) : (
+              <ResultsPage
+                answers={answers}
+                onReviewRecommendations={handleReviewRecommendations}
+                showConfetti={true}
+              />
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   )
