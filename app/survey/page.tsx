@@ -52,23 +52,29 @@ export default function SurveyPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col overflow-x-hidden">
+      {/* Subtle background pattern */}
+      <div className="fixed inset-0 opacity-[0.02]" style={{
+        backgroundImage: 'radial-gradient(circle at 1px 1px, hsl(40 60% 64%) 1px, transparent 0)',
+        backgroundSize: '40px 40px',
+      }} />
+
       {/* Header */}
-      <header className="w-full px-4 sm:px-6 py-4 border-b border-border">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
+      <header className="relative z-10 w-full px-4 sm:px-6 py-4 border-b border-border">
+        <div className="max-w-lg mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center">
               <span className="text-primary-foreground font-serif font-bold text-xs">S</span>
             </div>
             <span className="font-serif text-base text-foreground">SCV Wealth</span>
           </Link>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs text-muted-foreground font-sans">
             {currentQuestion + 1} of {questions.length}
           </span>
         </div>
       </header>
 
       {/* Main content */}
-      <div className="flex-1 flex items-center justify-center px-4 py-6 sm:py-10">
+      <div className="relative z-10 flex-1 flex items-center justify-center px-4 py-6 sm:py-10">
         <div className="w-full max-w-lg">
           <AnimatePresence mode="wait">
             {!showResults ? (
@@ -91,7 +97,7 @@ export default function SurveyPage() {
                   <button
                     onClick={prevQuestion}
                     type="button"
-                    className="mt-6 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="mt-6 flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     <ArrowLeft className="w-4 h-4" /> Previous question
                   </button>
@@ -100,7 +106,6 @@ export default function SurveyPage() {
             ) : (
               <ResultsPage
                 answers={answers}
-                onReviewRecommendations={handleReviewRecommendations}
                 showConfetti={true}
               />
             )}

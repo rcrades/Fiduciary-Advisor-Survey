@@ -1,5 +1,6 @@
+'use client';
+
 import { motion } from 'framer-motion'
-import { Button } from '@/components/ui/button'
 
 interface QuestionCardProps {
   question: {
@@ -13,26 +14,27 @@ interface QuestionCardProps {
 
 export default function QuestionCard({ question, onAnswer, selectedAnswer }: QuestionCardProps) {
   return (
-    <div className="text-center px-4 sm:px-0">
-      <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 text-white">{question.text}</h2>
-      <div className="grid gap-4">
+    <div className="text-center">
+      <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-foreground mb-8 text-balance">
+        {question.text}
+      </h2>
+      <div className="grid gap-3">
         {question.options.map((option, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
+          <motion.button
+            key={option}
+            type="button"
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ delay: index * 0.06, duration: 0.25 }}
+            onClick={() => onAnswer(option)}
+            className={`w-full min-h-[3.25rem] text-sm sm:text-base py-3 px-4 rounded-lg border transition-all duration-200 text-left whitespace-normal break-words ${
+              selectedAnswer === option
+                ? 'bg-primary/15 border-primary text-foreground'
+                : 'bg-card border-border text-foreground hover:border-primary/40 hover:bg-card/80'
+            }`}
           >
-            <Button
-              variant="outline"
-              className={`w-full min-h-[4rem] text-base sm:text-lg py-4 px-3 text-white border border-white border-opacity-30 hover:bg-white hover:bg-opacity-20 transition-all duration-200 whitespace-normal break-words ${
-                selectedAnswer === option ? 'bg-white bg-opacity-20' : 'bg-transparent'
-              }`}
-              onClick={() => onAnswer(option)}
-            >
-              {option}
-            </Button>
-          </motion.div>
+            {option}
+          </motion.button>
         ))}
       </div>
     </div>
